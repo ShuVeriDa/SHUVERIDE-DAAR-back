@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { PizzaService } from './pizza.service';
 import { CreatePizzaDto } from './dto/createPizza.dto';
 
@@ -17,7 +25,14 @@ export class PizzaController {
   }
 
   @Post()
+  @HttpCode(200)
   create(@Body() createPizzaDto: CreatePizzaDto) {
     return this.pizzaService.create(createPizzaDto);
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  delete(@Param('id') id: string) {
+    return this.pizzaService.delete(id);
   }
 }
