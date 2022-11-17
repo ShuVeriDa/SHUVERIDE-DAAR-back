@@ -16,7 +16,7 @@ export class PizzaService {
   }
 
   async create(dto: CreatePizzaDto) {
-    await this.repository.save({
+    const pizza = await this.repository.save({
       title: dto.title,
       imageUrl: dto.imageUrl,
       // types: dto.types,
@@ -26,6 +26,6 @@ export class PizzaService {
       rating: dto.rating,
     });
 
-    return this.repository.findOneBy({ id: dto.id });
+    return this.repository.findOneBy({ id: pizza.id });
   }
 }

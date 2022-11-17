@@ -16,7 +16,7 @@ export class DrinkService {
   }
 
   async create(dto: CreateDrinkDto) {
-    await this.repository.save({
+    const drink = await this.repository.save({
       title: dto.title,
       imageUrl: dto.imageUrl,
       liters: dto.liters,
@@ -25,6 +25,6 @@ export class DrinkService {
       rating: dto.rating,
     });
 
-    return this.repository.findOneBy({ id: dto.id });
+    return this.repository.findOneBy({ id: drink.id });
   }
 }
