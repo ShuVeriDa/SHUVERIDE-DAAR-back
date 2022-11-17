@@ -15,9 +15,9 @@ export class PizzaController {
   create(@Body() createPizzaDto: CreatePizzaDto) {
     return this.pizzaService.create(createPizzaDto);
   }
-  //
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.pizzaService.findOne();
-  // }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.pizzaService.findOne(id);
+  }
 }

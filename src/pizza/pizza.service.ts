@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PizzaEntity } from './entity/pizza.entity';
 import { Repository } from 'typeorm';
@@ -13,6 +13,12 @@ export class PizzaService {
 
   findAll() {
     return this.repository.find();
+  }
+
+  async findOne(id: string) {
+    const pizza = await this.repository.findOneBy({ id: id });
+    if (!pizza) throw new NotFoundException('Pizza not found');
+    return pizza;
   }
 
   async create(dto: CreatePizzaDto) {

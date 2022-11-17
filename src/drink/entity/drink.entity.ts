@@ -8,7 +8,7 @@ import {
 @Entity('drink')
 export class DrinkEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   imageUrl: string;
