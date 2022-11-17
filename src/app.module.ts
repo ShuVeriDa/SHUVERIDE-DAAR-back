@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { PizzaModule } from './pizza/pizza.module';
 import { PizzaEntity } from './pizza/entity/pizza.entity';
+import { DrinkModule } from './drink/drink.module';
+import { DrinkEntity } from './drink/entity/drink.entity';
 
 @Module({
   imports: [
@@ -15,11 +17,12 @@ import { PizzaEntity } from './pizza/entity/pizza.entity';
       username: 'postgres',
       password: '5940530bbbb',
       database: 'pizza',
-      entities: [PizzaEntity],
+      entities: [PizzaEntity, DrinkEntity],
       synchronize: true,
     }),
     UserModule,
     PizzaModule,
+    DrinkModule,
   ],
   controllers: [AppController],
   providers: [AppService],

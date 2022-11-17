@@ -1,7 +1,7 @@
-import { IsArray, IsNumber, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
+import { IsNumber, IsString } from 'class-validator';
 
-export class CreatePizzaDto {
+export class CreateDrinkDto {
   @Type(() => Number)
   id: number;
 
@@ -11,11 +11,8 @@ export class CreatePizzaDto {
   @IsString()
   title: string;
 
-  // @IsArray()
-  // types: number;
-  //
-  // @IsArray()
-  // sizes: number;
+  @IsNumber()
+  liters: number;
 
   @IsNumber()
   price: number;
