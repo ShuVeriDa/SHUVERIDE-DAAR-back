@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateDrinkDto } from './dto/createDrink.dto';
 import { getOneFood } from '../components/getComponent';
 import { createFood } from '../components/createFood';
+import { deleteFood } from '../components/deleteFood';
 
 @Injectable()
 export class DrinkService {
@@ -47,5 +48,9 @@ export class DrinkService {
       this,
       dto.liters,
     );
+  }
+
+  async delete(id: string) {
+    await deleteFood(id, 'Drink', this.repository);
   }
 }

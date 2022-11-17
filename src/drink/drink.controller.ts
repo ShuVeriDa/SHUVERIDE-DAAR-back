@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { DrinkService } from './drink.service';
 import { CreateDrinkDto } from './dto/createDrink.dto';
 
@@ -19,5 +19,10 @@ export class DrinkController {
   @Post()
   create(@Body() createDrinkDto: CreateDrinkDto) {
     return this.drinkService.create(createDrinkDto);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.drinkService.delete(id);
   }
 }
