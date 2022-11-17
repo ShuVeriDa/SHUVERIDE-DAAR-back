@@ -11,13 +11,13 @@ export class PizzaController {
     return this.pizzaService.findAll();
   }
 
-  @Post()
-  create(@Body() createPizzaDto: CreatePizzaDto) {
-    return this.pizzaService.create(createPizzaDto);
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.pizzaService.findOne(id);
+  }
+
+  @Post()
+  create(@Body() createPizzaDto: CreatePizzaDto) {
+    return this.pizzaService.create(createPizzaDto);
   }
 }

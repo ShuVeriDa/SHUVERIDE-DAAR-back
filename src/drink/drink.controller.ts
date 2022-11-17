@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { DrinkService } from './drink.service';
 import { CreateDrinkDto } from './dto/createDrink.dto';
 
@@ -9,6 +9,11 @@ export class DrinkController {
   @Get()
   findAll() {
     return this.drinkService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.drinkService.findOne(id);
   }
 
   @Post()

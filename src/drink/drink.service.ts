@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DrinkEntity } from './entity/drink.entity';
 import { Repository } from 'typeorm';
@@ -13,6 +13,12 @@ export class DrinkService {
 
   findAll() {
     return this.repository.find();
+  }
+
+  async findOne(id: string) {
+    const drink = await this.repository.findOneBy({ id: id });
+    if (!drink) throw new NotFoundException('Drink not found');
+    return drink;
   }
 
   async create(dto: CreateDrinkDto) {
