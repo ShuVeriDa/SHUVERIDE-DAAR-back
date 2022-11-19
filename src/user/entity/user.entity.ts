@@ -19,7 +19,7 @@ export class UserEntity {
   @Column({
     unique: true,
   })
-  nickName: string;
+  nickName?: string;
 
   @Column()
   password: string;
