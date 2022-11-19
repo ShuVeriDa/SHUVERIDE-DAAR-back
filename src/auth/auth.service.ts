@@ -41,7 +41,7 @@ export class AuthService {
 
   returnUserFields(user: UserEntity) {
     return {
-      _id: user.id,
+      id: user.id,
       email: user.email,
       isAdmin: user.isAdmin,
       nickName: user.nickName,

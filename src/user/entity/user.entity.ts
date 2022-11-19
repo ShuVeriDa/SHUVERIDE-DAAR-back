@@ -6,10 +6,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('auth')
+@Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column({
     unique: true,
