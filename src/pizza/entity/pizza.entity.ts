@@ -36,4 +36,9 @@ export class PizzaEntity {
 
   @CreateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @Column({
+    default: 0,
+  })
+  views: number;
 }

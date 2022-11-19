@@ -3,9 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PizzaEntity } from './entity/pizza.entity';
 import { Repository } from 'typeorm';
 import { CreatePizzaDto } from './dto/createPizza.dto';
-import { getOneFood } from '../components/getComponent';
+import { getOneFood } from '../components/getFood';
 import { createFood } from '../components/createFood';
 import { deleteFood } from '../components/deleteFood';
+import { filter } from 'rxjs';
+import { PizzaType } from './pizza.type';
 
 @Injectable()
 export class PizzaService {
@@ -14,8 +16,8 @@ export class PizzaService {
     private readonly repository: Repository<PizzaEntity>,
   ) {}
 
-  findAll() {
-    return this.repository.find();
+  async findAll() {
+    return await this.repository.find();
   }
 
   async findOne(id: string) {
@@ -52,5 +54,19 @@ export class PizzaService {
 
   async delete(id: string) {
     await deleteFood(id, 'pizza', this.repository);
+  }
+
+  async popular() {
+    const qb = this.repository.createQueryBuilder();
+
+    qb.orderBy('views', 'DESC');
+    qb.limit(10);
+
+    const [items, total] = await qb.getManyAndCount();
+
+    return {
+      items,
+      total,
+    };
   }
 }

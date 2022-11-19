@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DrinkEntity } from './entity/drink.entity';
 import { Repository } from 'typeorm';
 import { CreateDrinkDto } from './dto/createDrink.dto';
-import { getOneFood } from '../components/getComponent';
+import { getOneFood } from '../components/getFood';
 import { createFood } from '../components/createFood';
 import { deleteFood } from '../components/deleteFood';
 

@@ -7,6 +7,8 @@ import { PizzaModule } from './pizza/pizza.module';
 import { PizzaEntity } from './pizza/entity/pizza.entity';
 import { DrinkModule } from './drink/drink.module';
 import { DrinkEntity } from './drink/entity/drink.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserEntity } from './user/entity/user.entity';
 
 @Module({
   imports: [
@@ -17,12 +19,13 @@ import { DrinkEntity } from './drink/entity/drink.entity';
       username: 'postgres',
       password: '5940530bbbb',
       database: 'pizza',
-      entities: [PizzaEntity, DrinkEntity],
+      entities: [PizzaEntity, DrinkEntity, UserEntity],
       synchronize: true,
     }),
     UserModule,
     PizzaModule,
     DrinkModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

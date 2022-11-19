@@ -24,6 +24,11 @@ export class PizzaController {
     return this.pizzaService.findOne(id);
   }
 
+  @Get('pizzas')
+  getPopularPizza() {
+    return this.pizzaService.popular();
+  }
+
   @Post()
   @HttpCode(200)
   create(@Body() createPizzaDto: CreatePizzaDto) {
