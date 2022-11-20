@@ -9,12 +9,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { AuthDto } from './dto/auth.dto';
 import { UserEntity } from '../user/entity/user.entity';
+import { genSalt, hash } from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly repository: Repository<UserEntity>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async login(email: string, password: string) {
@@ -39,15 +42,6 @@ export class AuthService {
     return user;
   }
 
-  returnUserFields(user: UserEntity) {
-    return {
-      id: user.id,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      nickName: user.nickName,
-    };
-  }
-
   async register(dto: AuthDto) {
     const oldUser = await this.repository.findOneBy({ email: dto.email });
 
@@ -56,15 +50,47 @@ export class AuthService {
         'User with this email is already in the system',
       );
 
+    const salt = await genSalt(10);
+
+    const user = await this.repository.save({
+      nickName: dto.nickName,
+      email: dto.email,
+      password: await hash(dto.password, salt),
+      isAdmin: false,
+    });
+
+    const tokens = await this.issueTokenPair(String(user.id));
+
     try {
-      return await this.repository.save({
-        nickName: dto.nickName,
-        email: dto.email,
-        password: dto.password,
-        isAdmin: false,
-      });
+      return {
+        user: this.returnUserFields(user),
+        ...tokens,
+      };
     } catch (error) {
       throw new ForbiddenException('Registration error.');
     }
+  }
+
+  async issueTokenPair(userId: string) {
+    const data = { id: userId };
+
+    const refreshToken = await this.jwtService.signAsync(data, {
+      expiresIn: '15d',
+    });
+
+    const accessToken = await this.jwtService.signAsync(data, {
+      expiresIn: '1d',
+    });
+
+    return { refreshToken, accessToken };
+  }
+
+  returnUserFields(user: UserEntity) {
+    return {
+      id: user.id,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      nickName: user.nickName,
+    };
   }
 }
