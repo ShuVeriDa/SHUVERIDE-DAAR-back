@@ -11,6 +11,7 @@ import { AuthDto } from './dto/auth.dto';
 import { UserEntity } from '../user/entity/user.entity';
 import { genSalt, hash } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { RefreshTokenDto } from './dto/refreshToken.dto';
 
 @Injectable()
 export class AuthService {
@@ -69,6 +70,23 @@ export class AuthService {
     } catch (error) {
       throw new ForbiddenException('Registration error.');
     }
+  }
+
+  async getNewTokens({ refreshToken }: RefreshTokenDto) {
+    if (!refreshToken) throw new UnauthorizedException('Please sing in');
+
+    const result = await this.jwtService.verifyAsync(refreshToken);
+
+    if (!result) throw new UnauthorizedException('Invalid token or expired');
+
+    const user = await this.repository.findOneBy({ id: result.id });
+
+    const tokens = await this.issueTokenPair(String(user.id));
+
+    return {
+      user: this.returnUserFields(user),
+      ...tokens,
+    };
   }
 
   async issueTokenPair(userId: string) {
