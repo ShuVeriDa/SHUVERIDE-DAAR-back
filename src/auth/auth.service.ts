@@ -5,11 +5,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AuthDto } from './dto/auth.dto';
 import { UserEntity } from '../user/entity/user.entity';
-import { genSalt, hash } from 'bcryptjs';
+import { compare, genSalt, hash } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
 
@@ -21,24 +20,23 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(email: string, password: string) {
-    const user = await this.validateUser(email, password);
+  async login(dto: AuthDto) {
+    const user = await this.validateUser(dto);
+
+    const tokens = await this.issueTokenPair(String(user.id));
 
     return {
       user: this.returnUserFields(user),
+      ...tokens,
     };
   }
 
-  findByCond(cond: FindOptionsWhere<UserEntity>) {
-    return this.repository.findOneBy(cond);
-  }
+  async validateUser(dto: AuthDto) {
+    const user = await this.repository.findOneBy({ email: dto.email });
+    if (!user) throw new UnauthorizedException('User not found');
 
-  async validateUser(email: string, password: string) {
-    const user = await this.findByCond({
-      email: email,
-      password: password,
-    });
-    if (!user) throw new UnauthorizedException('Email or Password inValid');
+    const isValidPassword = await compare(dto.password, user.password); // сравнение пароля который пришел из dto с паролемя который находится в базе данных
+    if (!isValidPassword) throw new UnauthorizedException('Invalid password');
 
     return user;
   }

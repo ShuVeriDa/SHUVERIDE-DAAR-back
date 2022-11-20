@@ -18,13 +18,13 @@ export class AuthController {
   @HttpCode(200)
   @Post('login')
   login(@Body() dto: AuthDto) {
-    return this.authService.login(dto.email, dto.password);
+    return this.authService.login(dto);
   }
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Post('login/access-token')
-  async getNewTokens(@Body() data: RefreshTokenDto) {
+  getNewTokens(@Body() data: RefreshTokenDto) {
     return this.authService.getNewTokens(data);
   }
 
