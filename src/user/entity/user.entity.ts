@@ -24,7 +24,7 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @Column({ default: false })
+  @Column()
   isAdmin?: boolean;
 
   @CreateDateColumn({ type: 'timestamp' })

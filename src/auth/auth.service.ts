@@ -55,7 +55,7 @@ export class AuthService {
       nickName: dto.nickName,
       email: dto.email,
       password: await hash(dto.password, salt),
-      isAdmin: false,
+      isAdmin: dto.isAdmin,
     });
 
     const tokens = await this.issueTokenPair(String(user.id));
