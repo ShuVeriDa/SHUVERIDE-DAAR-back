@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CommentEntity } from '../../comment/entity/comment.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -15,6 +17,12 @@ export class UserEntity {
     unique: true,
   })
   email: string;
+
+  @OneToMany(() => CommentEntity, (comment) => comment.user, {
+    eager: false,
+    nullable: true,
+  })
+  comments: CommentEntity[];
 
   @Column({
     unique: true,

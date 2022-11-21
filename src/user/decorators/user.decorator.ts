@@ -4,7 +4,7 @@ import { UserEntity } from '../entity/user.entity';
 type TypeData = keyof UserEntity;
 
 export const User = createParamDecorator(
-  (data: TypeData, ctx: ExecutionContext) => {
+  (data: TypeData, ctx: ExecutionContext): UserEntity => {
     const request = ctx.switchToHttp().getRequest();
     const user = request.user;
 
