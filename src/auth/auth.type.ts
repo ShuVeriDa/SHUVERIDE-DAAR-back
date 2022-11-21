@@ -4,3 +4,5 @@ export type AuthType = {
   password: string;
   isAdmin?: boolean;
 };
+
+export type TypeRole = 'admin' | 'user' | undefined;

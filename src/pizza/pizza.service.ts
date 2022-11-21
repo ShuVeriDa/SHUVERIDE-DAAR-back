@@ -6,8 +6,7 @@ import { CreatePizzaDto } from './dto/createPizza.dto';
 import { getOneFood } from '../components/getFood';
 import { createFood } from '../components/createFood';
 import { deleteFood } from '../components/deleteFood';
-import { filter } from 'rxjs';
-import { PizzaType } from './pizza.type';
+import { updateFood } from '../components/updateFood';
 
 @Injectable()
 export class PizzaService {
@@ -21,28 +20,23 @@ export class PizzaService {
   }
 
   async findOne(id: string) {
-    // const pizza = await this.repository.findOneBy({ id: id });
-    // if (!pizza) throw new NotFoundException('Pizza not found');
-    // return pizza;
-
-    return getOneFood(id, 'Pizza', this);
+    return getOneFood(id, 'pizza', this);
   }
 
   async create(dto: CreatePizzaDto) {
-    //   const pizza = await this.repository.save({
-    //     title: dto.title,
-    //     imageUrl: dto.imageUrl,
-    //     // types: dto.types,
-    //     // sizes: dto.sizes,
-    //     price: dto.price,
-    //     category: dto.category,
-    //     rating: dto.rating,
-    //   });
-    //
-    //   return this.repository.findOneBy({ id: pizza.id });
-    // }
-
     return createFood(
+      dto.title,
+      dto.imageUrl,
+      dto.price,
+      dto.category,
+      dto.rating,
+      this,
+    );
+  }
+
+  async update(id: string, dto: CreatePizzaDto) {
+    return updateFood(
+      id,
       dto.title,
       dto.imageUrl,
       dto.price,
