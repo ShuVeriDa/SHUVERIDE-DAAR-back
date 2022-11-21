@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { User } from '../user/decorators/user.decorator';
@@ -12,6 +20,11 @@ export class CommentController {
   @Get()
   findAll(@Query() query: { foodId?: string }) {
     return this.commentService.findAll(+query.foodId);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.commentService.findOne(id);
   }
 
   @Post()
