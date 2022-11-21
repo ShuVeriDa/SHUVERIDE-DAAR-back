@@ -9,6 +9,7 @@ import { DrinkModule } from './drink/drink.module';
 import { DrinkEntity } from './drink/entity/drink.entity';
 import { AuthModule } from './auth/auth.module';
 import { UserEntity } from './user/entity/user.entity';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UserEntity } from './user/entity/user.entity';
     PizzaModule,
     DrinkModule,
     AuthModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
