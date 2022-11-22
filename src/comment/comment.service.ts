@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CommentEntity } from './entity/comment.entity';
@@ -33,9 +37,28 @@ export class CommentService {
   }
 
   async findOne(id: string) {
-    const comment = await this.repository.findOneBy({ id });
-    if (!comment) throw new NotFoundException('Comment not found');
-    return comment;
+    // const comment = await this.repository.findOneBy({ id });
+    // if (!comment) throw new NotFoundException('Comment not found');
+    // return comment;
+
+    const qb = this.repository.createQueryBuilder('c');
+
+    const arr = await qb
+      .leftJoinAndSelect('c.food', 'food')
+      .leftJoinAndSelect('c.user', 'user')
+      .getMany();
+
+    return arr.map((obj) => {
+      if (Number(obj.id) === Number(id)) {
+        delete obj.user.password;
+        return {
+          ...obj,
+          food: { id: obj.food.id, title: obj.food.title },
+        };
+      }
+
+      throw new NotFoundException('comment not found');
+    });
   }
 
   async create(dto: CreateCommentDto, userId: string) {
@@ -46,5 +69,16 @@ export class CommentService {
     });
 
     return this.repository.findOneBy({ id: comment.id });
+  }
+
+  async remove(id: string, userId: string) {
+    const comment = await this.findOne(id);
+    const commentUserId = comment.find((obj) => obj.user.id === userId);
+
+    if (!commentUserId) {
+      throw new ForbiddenException('No access to this comment');
+    }
+
+    return this.repository.delete(id);
   }
 }
