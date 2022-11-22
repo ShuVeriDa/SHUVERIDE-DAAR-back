@@ -1,12 +1,9 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CommentEntity } from './entity/comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { validationUser } from '../components/validation';
 
 @Injectable()
 export class CommentService {
@@ -48,17 +45,17 @@ export class CommentService {
       .leftJoinAndSelect('c.user', 'user')
       .getMany();
 
-    return arr.map((obj) => {
-      if (Number(obj.id) === Number(id)) {
-        delete obj.user.password;
-        return {
-          ...obj,
-          food: { id: obj.food.id, title: obj.food.title },
-        };
-      }
+    const comment = arr.find((obj) => Number(obj.id) === Number(id));
 
-      throw new NotFoundException('Comment not found');
-    });
+    if (!comment) {
+      throw new NotFoundException('comment not found');
+    }
+
+    delete comment.user.password;
+    return {
+      ...comment,
+      food: { id: comment.food.id, title: comment.food.title },
+    };
   }
 
   async create(dto: CreateCommentDto, userId: string) {
@@ -72,27 +69,19 @@ export class CommentService {
   }
 
   async update(id: string, userId: string, dto: CreateCommentDto) {
-    const comment = await this.findOne(id);
-    const commentUserId = comment.find((obj) => obj.user.id === userId);
+    await validationUser(id, userId, this);
 
-    if (!commentUserId) {
-      throw new ForbiddenException('No access to this comment');
-    }
-
-    return this.repository.update(id, {
+    await this.repository.update(id, {
       text: dto.text,
       food: { id: dto.foodId },
       user: { id: userId },
     });
+
+    return this.repository.findOneBy({ id });
   }
 
   async remove(id: string, userId: string) {
-    const comment = await this.findOne(id);
-    const commentUserId = comment.find((obj) => obj.user.id === userId);
-
-    if (!commentUserId) {
-      throw new ForbiddenException('No access to this comment');
-    }
+    await validationUser(id, userId, this);
 
     return this.repository.delete(id);
   }
