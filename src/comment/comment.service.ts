@@ -57,7 +57,7 @@ export class CommentService {
         };
       }
 
-      throw new NotFoundException('comment not found');
+      throw new NotFoundException('Comment not found');
     });
   }
 
@@ -69,6 +69,21 @@ export class CommentService {
     });
 
     return this.repository.findOneBy({ id: comment.id });
+  }
+
+  async update(id: string, userId: string, dto: CreateCommentDto) {
+    const comment = await this.findOne(id);
+    const commentUserId = comment.find((obj) => obj.user.id === userId);
+
+    if (!commentUserId) {
+      throw new ForbiddenException('No access to this comment');
+    }
+
+    return this.repository.update(id, {
+      text: dto.text,
+      food: { id: dto.foodId },
+      user: { id: userId },
+    });
   }
 
   async remove(id: string, userId: string) {
