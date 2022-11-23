@@ -40,7 +40,7 @@ export class PizzaEntity {
   views: number;
 
   @Column({ default: 0 })
-  favoritesCount: number;
+  favorites: number;
 
   @OneToMany(() => CommentEntity, (comment) => comment.food, { eager: true })
   @JoinColumn()

@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,6 +15,7 @@ import { PizzaService } from './pizza.service';
 import { CreatePizzaDto } from './dto/createPizza.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { User } from '../user/decorators/user.decorator';
+import { SearchPizzaDto } from './dto/search.dto';
 
 @Controller('pizza')
 export class PizzaController {
@@ -22,6 +24,11 @@ export class PizzaController {
   @Get()
   findAll() {
     return this.pizzaService.findAll();
+  }
+
+  @Get('/search')
+  search(@Query() dto: SearchPizzaDto) {
+    return this.pizzaService.search(dto);
   }
 
   @Get(':id')

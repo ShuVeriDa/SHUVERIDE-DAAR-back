@@ -34,7 +34,7 @@ export class DrinkEntity {
   views: number;
 
   @Column({ default: 0 })
-  favoritesCount: number;
+  favorites: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
