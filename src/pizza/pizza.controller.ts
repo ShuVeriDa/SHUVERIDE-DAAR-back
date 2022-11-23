@@ -37,11 +37,6 @@ export class PizzaController {
     return this.pizzaService.findOne(id);
   }
 
-  // @Get('pizzas')
-  // getPopularPizza() {
-  //   return this.pizzaService.popular();
-  // }
-
   @UsePipes(new ValidationPipe())
   @Post()
   @HttpCode(200)

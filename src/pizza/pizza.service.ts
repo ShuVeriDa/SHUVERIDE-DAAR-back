@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PizzaEntity } from './entity/pizza.entity';
 import { Repository } from 'typeorm';
@@ -8,7 +8,6 @@ import { createFood } from '../components/createFood';
 import { deleteFood } from '../components/deleteFood';
 import { updateFood } from '../components/updateFood';
 import { UserEntity } from '../user/entity/user.entity';
-import { UserService } from '../user/user.service';
 import { SearchPizzaDto } from './dto/search.dto';
 
 @Injectable()
@@ -97,20 +96,6 @@ export class PizzaService {
   async delete(id: string) {
     await deleteFood(id, 'pizza', this.repository);
   }
-
-  // async popular() {
-  //   const qb = this.repository.createQueryBuilder();
-  //
-  //   qb.orderBy('views', 'DESC');
-  //   qb.limit(10);
-  //
-  //   const [items, total] = await qb.getManyAndCount();
-  //
-  //   return {
-  //     items,
-  //     total,
-  //   };
-  // }
 
   async addToFavorites(id: string, userId: string) {
     const pizza = await getOneFood(id, 'pizza', this);

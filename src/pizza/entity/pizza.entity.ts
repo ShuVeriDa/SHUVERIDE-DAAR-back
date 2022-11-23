@@ -31,7 +31,7 @@ export class PizzaEntity {
   @Column()
   category: number;
 
-  @Column()
+  @Column({ default: 4.0 })
   rating: number;
 
   @Column({
