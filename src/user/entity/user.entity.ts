@@ -2,11 +2,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { CommentEntity } from '../../comment/entity/comment.entity';
+import { PizzaEntity } from '../../pizza/entity/pizza.entity';
+import { DrinkEntity } from '../../drink/entity/drink.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -34,6 +38,10 @@ export class UserEntity {
 
   @Column({ default: false })
   isAdmin?: boolean;
+
+  @ManyToMany(() => PizzaEntity)
+  @JoinTable()
+  favorites: PizzaEntity[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

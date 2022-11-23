@@ -14,6 +14,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { User } from '../user/decorators/user.decorator';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
+import { CommentEntity } from './entity/comment.entity';
 
 @Controller('comments')
 export class CommentController {

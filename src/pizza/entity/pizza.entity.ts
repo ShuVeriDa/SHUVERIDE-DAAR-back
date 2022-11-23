@@ -41,4 +41,7 @@ export class PizzaEntity {
     default: 0,
   })
   views: number;
+
+  @Column({ default: 0 })
+  favoritesCount: number;
 }

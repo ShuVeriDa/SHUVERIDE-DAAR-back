@@ -13,6 +13,7 @@ import {
 import { PizzaService } from './pizza.service';
 import { CreatePizzaDto } from './dto/createPizza.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
+import { User } from '../user/decorators/user.decorator';
 
 @Controller('pizza')
 export class PizzaController {
@@ -29,10 +30,10 @@ export class PizzaController {
     return this.pizzaService.findOne(id);
   }
 
-  @Get('pizzas')
-  getPopularPizza() {
-    return this.pizzaService.popular();
-  }
+  // @Get('pizzas')
+  // getPopularPizza() {
+  //   return this.pizzaService.popular();
+  // }
 
   @UsePipes(new ValidationPipe())
   @Post()
@@ -54,5 +55,14 @@ export class PizzaController {
   @Auth('admin')
   delete(@Param('id') id: string) {
     return this.pizzaService.delete(id);
+  }
+
+  @Post(':id/favorites')
+  @Auth()
+  async addPizzaToFavorites(
+    @User('id') userId: string,
+    @Param('id') id: string,
+  ) {
+    return await this.pizzaService.addToFavorites(id, userId);
   }
 }
