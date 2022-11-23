@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ForbiddenException,
   Injectable,
   UnauthorizedException,
@@ -11,6 +10,7 @@ import { UserEntity } from '../user/entity/user.entity';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
+import { validationOldUser } from '../components/validationOldUser';
 
 @Injectable()
 export class AuthService {
@@ -42,12 +42,8 @@ export class AuthService {
   }
 
   async register(dto: AuthDto) {
-    const oldUser = await this.repository.findOneBy({ email: dto.email });
-
-    if (oldUser)
-      throw new BadRequestException(
-        'User with this email is already in the system',
-      );
+    await validationOldUser(dto.email, this, 'email');
+    await validationOldUser(dto.nickName, this, 'nickName');
 
     const salt = await genSalt(10);
 

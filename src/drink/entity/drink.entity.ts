@@ -28,14 +28,17 @@ export class DrinkEntity {
   @Column()
   rating: number;
 
+  @Column({
+    default: 0,
+  })
+  views: number;
+
+  @Column({ default: 0 })
+  favoritesCount: number;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
   @CreateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
-
-  @Column({
-    default: 0,
-  })
-  views: number;
 }

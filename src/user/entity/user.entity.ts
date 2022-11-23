@@ -28,6 +28,10 @@ export class UserEntity {
   })
   comments: CommentEntity[];
 
+  @ManyToMany(() => PizzaEntity)
+  @JoinTable()
+  favorites: PizzaEntity[];
+
   @Column({
     unique: true,
   })
@@ -38,10 +42,6 @@ export class UserEntity {
 
   @Column({ default: false })
   isAdmin?: boolean;
-
-  @ManyToMany(() => PizzaEntity)
-  @JoinTable()
-  favorites: PizzaEntity[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

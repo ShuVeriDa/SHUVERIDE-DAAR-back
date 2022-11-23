@@ -65,4 +65,13 @@ export class PizzaController {
   ) {
     return await this.pizzaService.addToFavorites(id, userId);
   }
+
+  @Delete(':id/favorites')
+  @Auth()
+  async deletePizzaFromFavorites(
+    @User('id') userId: string,
+    @Param('id') id: string,
+  ) {
+    return await this.pizzaService.removeFromFavorites(id, userId);
+  }
 }

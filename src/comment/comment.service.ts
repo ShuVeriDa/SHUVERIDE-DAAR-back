@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CommentEntity } from './entity/comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { validationUser } from '../components/validation';
+import { validationUser } from '../components/validationUserForComments';
 
 @Injectable()
 export class CommentService {

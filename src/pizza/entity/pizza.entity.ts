@@ -2,8 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { CommentEntity } from '../../comment/entity/comment.entity';
 
 @Entity('pizza')
 export class PizzaEntity {
@@ -31,12 +34,6 @@ export class PizzaEntity {
   @Column()
   rating: number;
 
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
-
-  @CreateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
-
   @Column({
     default: 0,
   })
@@ -44,4 +41,14 @@ export class PizzaEntity {
 
   @Column({ default: 0 })
   favoritesCount: number;
+
+  @OneToMany(() => CommentEntity, (comment) => comment.food, { eager: true })
+  @JoinColumn()
+  comments: CommentEntity[];
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 }

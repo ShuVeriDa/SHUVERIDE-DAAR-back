@@ -88,4 +88,24 @@ export class PizzaService {
 
     return { pizza: pizza };
   }
+
+  async removeFromFavorites(id: string, userId: string) {
+    const pizza = await getOneFood(id, 'pizza', this);
+
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['favorites'],
+    });
+
+    const pizzaIndex = user.favorites.findIndex((obj) => obj.id === pizza.id);
+
+    if (pizzaIndex >= 0) {
+      user.favorites.splice(pizzaIndex, 1);
+      pizza.favoritesCount--;
+      await this.userRepository.save(user);
+      await this.repository.save(pizza);
+    }
+
+    return pizza;
+  }
 }

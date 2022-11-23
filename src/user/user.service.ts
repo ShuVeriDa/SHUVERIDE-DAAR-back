@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
 import { Repository } from 'typeorm';
-import { CommentEntity } from '../comment/entity/comment.entity';
 
 @Injectable()
 export class UserService {
@@ -12,27 +11,45 @@ export class UserService {
   ) {}
 
   async getAll() {
-    // return await this.repository.find();
-    const arr = await this.repository
-      .createQueryBuilder('u')
-      .leftJoinAndMapMany(
-        'u.comments',
-        CommentEntity,
-        'comment',
-        'comment.userId = u.id',
-      )
-      .loadRelationCountAndMap('u.commentsCount', 'u.comments', 'comments')
-      .getMany();
+    const users = await this.repository.find();
 
-    return arr.map((obj) => {
+    return users.map((obj) => {
       delete obj.comments;
+      delete obj.password;
+      delete obj.favorites;
       return obj;
     });
+
+    // const users = await this.repository.find({
+    //   relations: ['comments', 'favorites'],
+    // });
+    //
+    // return users.map((obj) => {
+    //   delete obj.comments;
+    //   delete obj.password;
+    //   delete obj.favorites;
+    //   return obj;
+    // });
   }
 
   async getById(id: string) {
     const user = await this.repository.findOneBy({ id });
     if (!user) throw new NotFoundException('User not found');
+
+    delete user.password;
     return user;
+
+    // const user = await this.repository.findOne({
+    //   where: { id: id },
+    //   relations: ['favorites', 'comments'],
+    // });
+    //
+    // if (!user) throw new NotFoundException('User not found');
+    //
+    // delete user.comments;
+    // delete user.favorites;
+    // delete user.password;
+    //
+    // return user;
   }
 }
