@@ -13,7 +13,7 @@ import { DrinkEntity } from '../../drink/entity/drink.entity';
 
 @Entity('comments')
 export class CommentEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -25,11 +25,11 @@ export class CommentEntity {
   @JoinColumn({ name: 'userId' })
   user: UserEntity;
 
-  @ManyToOne(() => PizzaEntity || DrinkEntity, {
+  @ManyToOne(() => PizzaEntity, {
     nullable: false,
   })
   @JoinColumn({ name: 'foodId' })
-  food: PizzaEntity | DrinkEntity;
+  food: PizzaEntity;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

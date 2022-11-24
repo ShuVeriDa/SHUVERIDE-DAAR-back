@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreatePizzaDto {
@@ -20,6 +20,7 @@ export class CreatePizzaDto {
   @IsNumber()
   category: number;
 
+  @IsOptional()
   @IsNumber()
-  rating: number;
+  rating?: number;
 }

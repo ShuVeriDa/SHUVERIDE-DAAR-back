@@ -7,7 +7,7 @@ import {
 
 @Entity('drink')
 export class DrinkEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -25,8 +25,8 @@ export class DrinkEntity {
   @Column()
   category: number;
 
-  @Column()
-  rating: number;
+  @Column({ default: 4.0 })
+  rating?: number;
 
   @Column({
     default: 0,

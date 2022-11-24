@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentEntity } from './entity/comment.entity';
 import { PizzaModule } from '../pizza/pizza.module';
 import { DrinkModule } from '../drink/drink.module';
+import { PizzaService } from '../pizza/pizza.service';
 
 @Module({
   imports: [

@@ -10,7 +10,6 @@ import {
 } from 'typeorm';
 import { CommentEntity } from '../../comment/entity/comment.entity';
 import { PizzaEntity } from '../../pizza/entity/pizza.entity';
-import { DrinkEntity } from '../../drink/entity/drink.entity';
 
 @Entity('user')
 export class UserEntity {

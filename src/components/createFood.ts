@@ -3,7 +3,6 @@ export const createFood = async (
   imageUrl: string,
   price: number,
   category: number,
-  rating: number,
   repos: any,
   liters?: number,
 ) => {
@@ -15,7 +14,6 @@ export const createFood = async (
     liters,
     price,
     category,
-    rating,
   });
 
   return repos.repository.findOneBy({ id: food.id });

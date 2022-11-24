@@ -6,7 +6,6 @@ export const updateFood = async (
   imageUrl: string,
   price: number,
   category: number,
-  rating: number,
   repos: any,
   liters?: number,
 ) => {
@@ -20,7 +19,6 @@ export const updateFood = async (
       imageUrl,
       price,
       category,
-      rating,
       liters,
     },
   );

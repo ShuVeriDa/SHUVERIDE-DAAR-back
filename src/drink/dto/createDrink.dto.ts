@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateDrinkDto {
   @IsString()
@@ -17,6 +17,7 @@ export class CreateDrinkDto {
   @IsNumber()
   category: number;
 
+  @IsOptional()
   @IsNumber()
-  rating: number;
+  rating?: number;
 }

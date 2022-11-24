@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Generated,
   JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -10,7 +11,7 @@ import { CommentEntity } from '../../comment/entity/comment.entity';
 
 @Entity('pizza')
 export class PizzaEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -32,7 +33,7 @@ export class PizzaEntity {
   category: number;
 
   @Column({ default: 4.0 })
-  rating: number;
+  rating?: number;
 
   @Column({
     default: 0,

@@ -13,6 +13,8 @@ import { UserEntity } from './user/entity/user.entity';
 import { FileModule } from './file/file.module';
 import { CommentModule } from './comment/comment.module';
 import { CommentEntity } from './comment/entity/comment.entity';
+import { RatingModule } from './rating/rating.module';
+import { RatingEntity } from './rating/entity/rating.entity';
 
 @Module({
   imports: [
@@ -23,7 +25,13 @@ import { CommentEntity } from './comment/entity/comment.entity';
       username: 'postgres',
       password: '5940530bbbb',
       database: 'pizza',
-      entities: [PizzaEntity, DrinkEntity, UserEntity, CommentEntity],
+      entities: [
+        PizzaEntity,
+        DrinkEntity,
+        UserEntity,
+        CommentEntity,
+        RatingEntity,
+      ],
       synchronize: true,
     }),
     UserModule,
@@ -32,6 +40,7 @@ import { CommentEntity } from './comment/entity/comment.entity';
     AuthModule,
     FileModule,
     CommentModule,
+    RatingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

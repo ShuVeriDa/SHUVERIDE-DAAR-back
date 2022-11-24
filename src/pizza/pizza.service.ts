@@ -71,14 +71,7 @@ export class PizzaService {
   }
 
   async create(dto: CreatePizzaDto) {
-    return createFood(
-      dto.title,
-      dto.imageUrl,
-      dto.price,
-      dto.category,
-      dto.rating,
-      this,
-    );
+    return createFood(dto.title, dto.imageUrl, dto.price, dto.category, this);
   }
 
   async update(id: string, dto: CreatePizzaDto) {
@@ -88,7 +81,6 @@ export class PizzaService {
       dto.imageUrl,
       dto.price,
       dto.category,
-      dto.rating,
       this,
     );
   }
@@ -136,5 +128,14 @@ export class PizzaService {
     }
 
     return pizza;
+  }
+
+  async updateRating(id: string, newRating: number) {
+    return this.repository.update(
+      { id },
+      {
+        rating: newRating,
+      },
+    );
   }
 }

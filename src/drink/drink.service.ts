@@ -29,7 +29,6 @@ export class DrinkService {
       dto.imageUrl,
       dto.price,
       dto.category,
-      dto.rating,
       this,
       dto.liters,
     );
@@ -42,7 +41,6 @@ export class DrinkService {
       dto.imageUrl,
       dto.price,
       dto.category,
-      dto.rating,
       this,
       dto.liters,
     );
