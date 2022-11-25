@@ -14,10 +14,10 @@ export class FoodEntity {
   id: string;
 
   @Column()
-  imageUrl: string;
+  title: string;
 
   @Column()
-  title: string;
+  imageUrl: string;
 
   @Column()
   price: number;

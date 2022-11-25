@@ -54,10 +54,18 @@ export class FoodController {
   }
 
   @UsePipes(new ValidationPipe())
-  @Put(':id')
+  @Put('/pizzas/:id')
   @HttpCode(200)
   @Auth('admin')
-  update(@Param('id') id: string, @Body() dto: CreateFoodDto) {
+  updatePizza(@Param('id') id: string, @Body() dto: CreateFoodDto) {
+    return this.foodService.update(id, dto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @Put('/drinks/:id')
+  @HttpCode(200)
+  @Auth('admin')
+  updateDrink(@Param('id') id: string, @Body() dto: CreateFoodDto) {
     return this.foodService.update(id, dto);
   }
 

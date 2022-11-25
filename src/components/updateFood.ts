@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 
 export const updateFood = async (
-  id,
+  id: string,
   title: string,
   imageUrl: string,
   kind: number,
@@ -29,5 +29,5 @@ export const updateFood = async (
     },
   );
 
-  return await repos.repository.findOneBy({ id });
+  return await repos.foodRepository.findOneBy({ id });
 };
