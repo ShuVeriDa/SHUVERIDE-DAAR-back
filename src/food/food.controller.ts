@@ -11,52 +11,60 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { PizzaService } from './pizza.service';
-import { CreatePizzaDto } from './dto/createPizza.dto';
+import { FoodService } from './food.service';
+import { SearchFoodDto } from './dto/search.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { User } from '../user/decorators/user.decorator';
-import { SearchFoodDto } from '../food/dto/search.dto';
+import { CreateFoodDto } from './dto/CreateFood.dto';
 
-@Controller('pizza')
-export class PizzaController {
-  constructor(private readonly pizzaService: PizzaService) {}
+@Controller('foods')
+export class FoodController {
+  constructor(private readonly foodService: FoodService) {}
 
   @Get()
   findAll() {
-    return this.pizzaService.findAll();
+    return this.foodService.findAll();
   }
 
   @Get('/search')
   search(@Query() dto: SearchFoodDto) {
-    return this.pizzaService.search(dto);
+    return this.foodService.search(dto);
   }
 
   @Get(':id')
   @Auth('admin')
   findOne(@Param('id') id: string) {
-    return this.pizzaService.findOne(id);
+    return this.foodService.findOne(id);
   }
 
   @UsePipes(new ValidationPipe())
-  @Post()
+  @Post('/pizzas')
   @HttpCode(200)
   @Auth('admin')
-  create(@Body() createPizzaDto: CreatePizzaDto) {
-    return this.pizzaService.create(createPizzaDto);
+  createPizza(@Body() dto: CreateFoodDto) {
+    return this.foodService.create(dto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @Post('/drinks')
+  @HttpCode(200)
+  @Auth('admin')
+  createDrink(@Body() dto: CreateFoodDto) {
+    return this.foodService.create(dto);
   }
 
   @UsePipes(new ValidationPipe())
   @Put(':id')
   @HttpCode(200)
   @Auth('admin')
-  update(@Param('id') id: string, @Body() dto: CreatePizzaDto) {
-    return this.pizzaService.update(id, dto);
+  update(@Param('id') id: string, @Body() dto: CreateFoodDto) {
+    return this.foodService.update(id, dto);
   }
 
   @Delete(':id')
   @Auth('admin')
   delete(@Param('id') id: string) {
-    return this.pizzaService.delete(id);
+    return this.foodService.delete(id);
   }
 
   @Post(':id/favorites')
@@ -65,7 +73,7 @@ export class PizzaController {
     @User('id') userId: string,
     @Param('id') id: string,
   ) {
-    return await this.pizzaService.addToFavorites(id, userId);
+    return await this.foodService.addToFavorites(id, userId);
   }
 
   @Delete(':id/favorites')
@@ -74,6 +82,6 @@ export class PizzaController {
     @User('id') userId: string,
     @Param('id') id: string,
   ) {
-    return await this.pizzaService.removeFromFavorites(id, userId);
+    return await this.foodService.removeFromFavorites(id, userId);
   }
 }

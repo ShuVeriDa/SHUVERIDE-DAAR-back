@@ -15,6 +15,9 @@ import { CommentModule } from './comment/comment.module';
 import { CommentEntity } from './comment/entity/comment.entity';
 import { RatingModule } from './rating/rating.module';
 import { RatingEntity } from './rating/entity/rating.entity';
+import { FoodService } from './food/food.service';
+import { FoodModule } from './food/food.module';
+import { FoodEntity } from './food/entity/food.entity';
 
 @Module({
   imports: [
@@ -31,6 +34,7 @@ import { RatingEntity } from './rating/entity/rating.entity';
         UserEntity,
         CommentEntity,
         RatingEntity,
+        FoodEntity,
       ],
       synchronize: true,
     }),
@@ -41,6 +45,7 @@ import { RatingEntity } from './rating/entity/rating.entity';
     FileModule,
     CommentModule,
     RatingModule,
+    FoodModule,
   ],
   controllers: [AppController],
   providers: [AppService],

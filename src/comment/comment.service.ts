@@ -24,6 +24,8 @@ export class CommentService {
       .leftJoinAndSelect('c.user', 'user')
       .getMany();
 
+    console.log(arr);
+
     return arr.map((obj) => {
       delete obj.user.password;
       return {

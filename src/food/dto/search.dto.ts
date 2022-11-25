@@ -1,4 +1,4 @@
-export class SearchPizzaDto {
+export class SearchFoodDto {
   title?: string;
   price?: 'DESC' | 'ASC';
   rating?: 'DESC' | 'ASC';

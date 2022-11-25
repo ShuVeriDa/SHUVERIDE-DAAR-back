@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -10,6 +12,7 @@ import {
 import { UserEntity } from '../../user/entity/user.entity';
 import { PizzaEntity } from '../../pizza/entity/pizza.entity';
 import { DrinkEntity } from '../../drink/entity/drink.entity';
+import { FoodEntity } from '../../food/entity/food.entity';
 
 @Entity('comments')
 export class CommentEntity {
@@ -25,7 +28,7 @@ export class CommentEntity {
   @JoinColumn({ name: 'userId' })
   user: UserEntity;
 
-  @ManyToOne(() => PizzaEntity, {
+  @ManyToOne(() => FoodEntity, {
     nullable: false,
   })
   @JoinColumn({ name: 'foodId' })

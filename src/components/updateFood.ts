@@ -4,22 +4,28 @@ export const updateFood = async (
   id,
   title: string,
   imageUrl: string,
+  kind: number,
   price: number,
   category: number,
   repos: any,
   liters?: number,
+  types?: number[],
+  sizes?: number[],
 ) => {
-  const food = await repos.repository.findOneBy({ id });
-  if (!food) throw new NotFoundException(`Pizza not found`);
+  const food = await repos.foodRepository.findOneBy({ id });
+  if (!food) throw new NotFoundException(`Food not found`);
 
-  const newPizza = await repos.repository.update(
+  const newFood = await repos.foodRepository.update(
     { id },
     {
       title,
       imageUrl,
       price,
+      kind,
       category,
       liters,
+      types,
+      sizes,
     },
   );
 

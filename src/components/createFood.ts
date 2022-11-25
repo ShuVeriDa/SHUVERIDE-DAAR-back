@@ -2,19 +2,23 @@ export const createFood = async (
   title: string,
   imageUrl: string,
   price: number,
+  kind: number,
   category: number,
   repos: any,
   liters?: number,
+  types?: number[],
+  sizes?: number[],
 ) => {
-  const food = await repos.repository.save({
+  const food = await repos.foodRepository.save({
     title,
     imageUrl,
-    // types: dto.types,
-    // sizes: dto.sizes,
-    liters,
     price,
+    kind,
     category,
+    liters,
+    types,
+    sizes,
   });
 
-  return repos.repository.findOneBy({ id: food.id });
+  return repos.foodRepository.findOneBy({ id: food.id });
 };

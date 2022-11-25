@@ -24,26 +24,26 @@ export class DrinkService {
   }
 
   async create(dto: CreateDrinkDto) {
-    return createFood(
-      dto.title,
-      dto.imageUrl,
-      dto.price,
-      dto.category,
-      this,
-      dto.liters,
-    );
+    // return createFood(
+    //   dto.title,
+    //   dto.imageUrl,
+    //   dto.price,
+    //   dto.category,
+    //   this,
+    //   dto.liters,
+    // );
   }
 
   async update(id: string, dto: CreateDrinkDto) {
-    return updateFood(
-      id,
-      dto.title,
-      dto.imageUrl,
-      dto.price,
-      dto.category,
-      this,
-      dto.liters,
-    );
+    // return updateFood(
+    //   id,
+    //   dto.title,
+    //   dto.imageUrl,
+    //   dto.price,
+    //   dto.category,
+    //   this,
+    //   dto.liters,
+    // );
   }
 
   async delete(id: string) {

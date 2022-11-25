@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { CommentEntity } from '../../comment/entity/comment.entity';
-import { PizzaEntity } from '../../pizza/entity/pizza.entity';
+import { FoodEntity } from '../../food/entity/food.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -27,9 +27,13 @@ export class UserEntity {
   })
   comments: CommentEntity[];
 
-  @ManyToMany(() => PizzaEntity)
+  // @ManyToMany(() => PizzaEntity)
+  // @JoinTable()
+  // favorites: PizzaEntity[];
+
+  @ManyToMany(() => FoodEntity)
   @JoinTable()
-  favorites: PizzaEntity[];
+  favorites: FoodEntity[];
 
   @Column({
     unique: true,
