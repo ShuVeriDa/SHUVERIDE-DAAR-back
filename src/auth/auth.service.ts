@@ -10,7 +10,7 @@ import { UserEntity } from '../user/entity/user.entity';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
-import { validationOldUser } from '../components/validationOldUser';
+import { validationOldUser } from '../components/forServices/validationOldUser';
 
 @Injectable()
 export class AuthService {

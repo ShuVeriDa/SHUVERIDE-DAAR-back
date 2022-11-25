@@ -3,10 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DrinkEntity } from './entity/drink.entity';
 import { Repository } from 'typeorm';
 import { CreateDrinkDto } from './dto/createDrink.dto';
-import { getOneFood } from '../components/getFood';
-import { createFood } from '../components/createFood';
-import { deleteFood } from '../components/deleteFood';
-import { updateFood } from '../components/updateFood';
+import { getOneFood } from '../components/forServices/getOneFood';
+import { createFood } from '../components/forServices/createFood';
+import { deleteFood } from '../components/forServices/deleteFood';
+import { updateFood } from '../components/forServices/updateFood';
 
 @Injectable()
 export class DrinkService {

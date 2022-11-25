@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { AuthDto } from '../auth/dto/auth.dto';
+import { AuthDto } from '../../auth/dto/auth.dto';
 
 export const validationOldUser = async (
   dto: string,

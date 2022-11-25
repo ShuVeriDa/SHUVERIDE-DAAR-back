@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { PizzaEntity } from '../pizza/entity/pizza.entity';
-import { DrinkEntity } from '../drink/entity/drink.entity';
+import { PizzaEntity } from '../../pizza/entity/pizza.entity';
+import { DrinkEntity } from '../../drink/entity/drink.entity';
 
 export const deleteFood = async (
   id: string,

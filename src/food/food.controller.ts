@@ -21,6 +21,8 @@ import { CreateFoodDto } from './dto/CreateFood.dto';
 export class FoodController {
   constructor(private readonly foodService: FoodService) {}
 
+  //Joint
+
   @Get()
   findAll() {
     return this.foodService.findAll();
@@ -37,6 +39,14 @@ export class FoodController {
     return this.foodService.findOne(id);
   }
 
+  //Pizza
+
+  @Get('pizzas/:id')
+  @Auth('admin')
+  findOnePizza(@Param('id') id: string) {
+    return this.foodService.findOnePizza(id);
+  }
+
   @UsePipes(new ValidationPipe())
   @Post('/pizzas')
   @HttpCode(200)
@@ -46,19 +56,27 @@ export class FoodController {
   }
 
   @UsePipes(new ValidationPipe())
-  @Post('/drinks')
-  @HttpCode(200)
-  @Auth('admin')
-  createDrink(@Body() dto: CreateFoodDto) {
-    return this.foodService.create(dto);
-  }
-
-  @UsePipes(new ValidationPipe())
   @Put('/pizzas/:id')
   @HttpCode(200)
   @Auth('admin')
   updatePizza(@Param('id') id: string, @Body() dto: CreateFoodDto) {
     return this.foodService.update(id, dto);
+  }
+
+  //Drink
+
+  @Get('drinks/:id')
+  @Auth('admin')
+  findOneDrink(@Param('id') id: string) {
+    return this.foodService.findOneDrink(id);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @Post('/drinks')
+  @HttpCode(200)
+  @Auth('admin')
+  createDrink(@Body() dto: CreateFoodDto) {
+    return this.foodService.create(dto);
   }
 
   @UsePipes(new ValidationPipe())

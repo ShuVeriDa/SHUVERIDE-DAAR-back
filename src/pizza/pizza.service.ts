@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PizzaEntity } from './entity/pizza.entity';
 import { Repository } from 'typeorm';
 import { CreatePizzaDto } from './dto/createPizza.dto';
-import { getOneFood } from '../components/getFood';
-import { deleteFood } from '../components/deleteFood';
+import { getOneFood } from '../components/forServices/getOneFood';
+import { deleteFood } from '../components/forServices/deleteFood';
 import { UserEntity } from '../user/entity/user.entity';
 import { SearchFoodDto } from '../food/dto/search.dto';
 

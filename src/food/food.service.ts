@@ -2,13 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../user/entity/user.entity';
-import { getOneFood } from '../components/getFood';
-import { createFood } from '../components/createFood';
-import { updateFood } from '../components/updateFood';
-import { deleteFood } from '../components/deleteFood';
+import { getOneFood } from '../components/forServices/getOneFood';
+import { createFood } from '../components/forServices/createFood';
+import { updateFood } from '../components/forServices/updateFood';
+import { deleteFood } from '../components/forServices/deleteFood';
 import { FoodEntity } from './entity/food.entity';
 import { CreateFoodDto } from './dto/CreateFood.dto';
 import { SearchFoodDto } from './dto/search.dto';
+import { getOneByKind } from '../components/forServices/getOneByKind';
 
 @Injectable()
 export class FoodService {
@@ -67,7 +68,15 @@ export class FoodService {
   }
 
   async findOne(id: string) {
-    return getOneFood(id, 'pizza', this);
+    return getOneByKind(id, 'foods', this);
+  }
+
+  async findOnePizza(id: string) {
+    return getOneByKind(id, 'foods', this, 0);
+  }
+
+  async findOneDrink(id: string) {
+    return getOneByKind(id, 'foods', this, 1);
   }
 
   async create(dto: CreateFoodDto) {
