@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserEntity } from '../../user/entity/user.entity';
-import { PizzaEntity } from '../../pizza/entity/pizza.entity';
+import { FoodEntity } from '../../food/entity/food.entity';
 
 @Entity('ratings')
 export class RatingEntity {
@@ -17,11 +17,11 @@ export class RatingEntity {
   userId: string;
 
   @PrimaryGeneratedColumn('uuid')
-  @ManyToOne(() => PizzaEntity, (pizza) => pizza.id, {
+  @ManyToOne(() => FoodEntity, (food) => food.id, {
     nullable: false,
   })
-  @JoinColumn({ name: 'pizzaId' })
-  pizzaId: string;
+  @JoinColumn({ name: 'foodId' })
+  foodId: string;
 
   @Column()
   value: number;

@@ -3,14 +3,13 @@ import { RatingController } from './rating.controller';
 import { RatingService } from './rating.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RatingEntity } from './entity/rating.entity';
-import { PizzaModule } from '../pizza/pizza.module';
-import { PizzaService } from '../pizza/pizza.service';
-import { PizzaEntity } from '../pizza/entity/pizza.entity';
 import { UserEntity } from '../user/entity/user.entity';
+import { FoodEntity } from '../food/entity/food.entity';
+import { FoodService } from '../food/food.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RatingEntity, PizzaEntity, UserEntity])],
+  imports: [TypeOrmModule.forFeature([RatingEntity, FoodEntity, UserEntity])],
   controllers: [RatingController],
-  providers: [RatingService, PizzaService],
+  providers: [RatingService, FoodService],
 })
 export class RatingModule {}

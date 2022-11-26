@@ -16,7 +16,7 @@ export class RatingController {
   constructor(private readonly ratingService: RatingService) {}
 
   @UsePipes(new ValidationPipe())
-  @Post('set-rating/pizza')
+  @Post('set-rating/foods')
   @HttpCode(200)
   @Auth()
   setRating(@User('id') id: string, @Body() dto: SetRatingDto) {

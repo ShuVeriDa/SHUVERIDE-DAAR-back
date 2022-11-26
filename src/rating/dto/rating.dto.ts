@@ -2,7 +2,7 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class SetRatingDto {
   @IsString()
-  pizzaId: string;
+  foodId: string;
 
   @IsNumber()
   value: number;
