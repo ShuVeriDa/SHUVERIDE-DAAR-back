@@ -6,4 +6,6 @@ export class SearchFoodDto {
   favorites?: 'DESC' | 'ASC';
   limit?: number;
   take?: number;
+  kind?: number;
+  category?: string;
 }

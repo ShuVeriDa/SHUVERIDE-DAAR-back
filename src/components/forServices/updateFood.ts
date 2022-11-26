@@ -1,4 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { FoodEntity } from '../../food/entity/food.entity';
 
 export const updateFood = async (
   id: string,
@@ -7,15 +9,15 @@ export const updateFood = async (
   price: number,
   kind: number,
   category: number,
-  repos: any,
+  repos: Repository<FoodEntity>,
   liters?: number,
   types?: number[],
   sizes?: number[],
 ) => {
-  const food = await repos.foodRepository.findOneBy({ id });
+  const food = await repos.findOneBy({ id });
   if (!food) throw new NotFoundException(`Food not found`);
 
-  const newFood = await repos.foodRepository.update(
+  const newFood = await repos.update(
     { id },
     {
       title,
@@ -29,5 +31,5 @@ export const updateFood = async (
     },
   );
 
-  return await repos.foodRepository.findOneBy({ id });
+  return await repos.findOneBy({ id });
 };

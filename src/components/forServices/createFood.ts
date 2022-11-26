@@ -1,15 +1,18 @@
+import { Repository } from 'typeorm';
+import { FoodEntity } from '../../food/entity/food.entity';
+
 export const createFood = async (
   title: string,
   imageUrl: string,
   price: number,
   kind: number,
   category: number,
-  repos: any,
+  repos: Repository<FoodEntity>,
   liters?: number,
   types?: number[],
   sizes?: number[],
 ) => {
-  const food = await repos.foodRepository.save({
+  const food = await repos.save({
     title,
     imageUrl,
     price,
@@ -20,5 +23,5 @@ export const createFood = async (
     sizes,
   });
 
-  return repos.foodRepository.findOneBy({ id: food.id });
+  return repos.findOneBy({ id: food.id });
 };

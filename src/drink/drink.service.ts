@@ -47,6 +47,6 @@ export class DrinkService {
   }
 
   async delete(id: string) {
-    await deleteFood(id, 'Drink', this.repository);
+    // await deleteFood(id, 'Drink', this.repository);
   }
 }

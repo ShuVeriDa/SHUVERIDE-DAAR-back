@@ -39,8 +39,6 @@ import { FoodEntity } from './food/entity/food.entity';
       synchronize: true,
     }),
     UserModule,
-    PizzaModule,
-    DrinkModule,
     AuthModule,
     FileModule,
     CommentModule,

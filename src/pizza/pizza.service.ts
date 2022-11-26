@@ -84,7 +84,7 @@ export class PizzaService {
   }
 
   async delete(id: string) {
-    await deleteFood(id, 'pizza', this.repository);
+    // await deleteFood(id, 'pizza', this.repository);
   }
 
   async addToFavorites(id: string, userId: string) {

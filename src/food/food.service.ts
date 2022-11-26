@@ -29,13 +29,21 @@ export class FoodService {
   }
 
   async search(dto: SearchFoodDto) {
-    const qb = this.foodRepository.createQueryBuilder('food');
+    const qb = this.foodRepository.createQueryBuilder('foods');
 
     qb.limit(dto.limit || 0);
     qb.take(dto.take || 10);
 
     if (dto.title) {
-      qb.andWhere('pizza.title ILIKE :title');
+      qb.andWhere('foods.title ILIKE :title');
+    }
+
+    if (dto.kind) {
+      qb.andWhere('foods.kind = :kind', { kind: dto.kind });
+    }
+
+    if (dto.category) {
+      qb.andWhere('foods.category = :category', { category: dto.category });
     }
 
     if (dto.views) {
@@ -56,10 +64,12 @@ export class FoodService {
 
     qb.setParameters({
       title: `%${dto.title}%`,
-      views: `%${dto.views}%`,
-      price: `%${dto.price}%`,
-      rating: `%${dto.rating}%`,
-      favorites: `%${dto.favorites}%`,
+      kind: dto.kind,
+      category: dto.category,
+      views: dto.views || 'DESC',
+      price: dto.price || 'DESC',
+      rating: dto.rating || 'DESC',
+      favorites: dto.favorites || 'DESC',
     });
 
     const [items, total] = await qb.getManyAndCount();
@@ -68,15 +78,15 @@ export class FoodService {
   }
 
   async findOne(id: string) {
-    return getOneByKind(id, 'foods', this);
+    return getOneByKind(id, 'foods', this.foodRepository);
   }
 
   async findOnePizza(id: string) {
-    return getOneByKind(id, 'foods', this, 0);
+    return getOneByKind(id, 'foods', this.foodRepository, 0);
   }
 
   async findOneDrink(id: string) {
-    return getOneByKind(id, 'foods', this, 1);
+    return getOneByKind(id, 'foods', this.foodRepository, 1);
   }
 
   async create(dto: CreateFoodDto) {
@@ -86,7 +96,7 @@ export class FoodService {
       dto.price,
       dto.kind,
       dto.category,
-      this,
+      this.foodRepository,
       dto.liters,
       dto.types,
       dto.sizes,
@@ -101,7 +111,7 @@ export class FoodService {
       dto.price,
       dto.kind,
       dto.category,
-      this,
+      this.foodRepository,
       dto.liters,
       dto.types,
       dto.sizes,
@@ -113,44 +123,44 @@ export class FoodService {
   }
 
   async addToFavorites(id: string, userId: string) {
-    // const pizza = await getOneFood(id, 'food', this);
-    //
-    // const user = await this.userRepository.findOne({
-    //   where: { id: userId },
-    //   relations: ['favorites'],
-    // });
-    //
-    // const isNotFavorites =
-    //   user.favorites.findIndex((obj) => obj.id === food.id) === -1;
-    //
-    // if (isNotFavorites) {
-    //   user.favorites.push(pizza);
-    //   pizza.favorites++;
-    //   await this.userRepository.save(user);
-    //   await this.foodRepository.save(pizza);
-    // }
-    //
-    // return { pizza: pizza };
-  }
-
-  async removeFromFavorites(id: string, userId: string) {
-    const pizza = await getOneFood(id, 'pizza', this);
+    const food = await getOneFood(id, 'foods', this);
 
     const user = await this.userRepository.findOne({
       where: { id: userId },
       relations: ['favorites'],
     });
 
-    const pizzaIndex = user.favorites.findIndex((obj) => obj.id === pizza.id);
+    const isNotFavorites =
+      user.favorites.findIndex((obj) => obj.id === food.id) === -1;
+
+    if (isNotFavorites) {
+      user.favorites.push(food);
+      food.favorites++;
+      await this.userRepository.save(user);
+      await this.foodRepository.save(food);
+    }
+
+    return { food: food };
+  }
+
+  async removeFromFavorites(id: string, userId: string) {
+    const food = await getOneFood(id, 'foods', this);
+
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['favorites'],
+    });
+
+    const pizzaIndex = user.favorites.findIndex((obj) => obj.id === food.id);
 
     if (pizzaIndex >= 0) {
       user.favorites.splice(pizzaIndex, 1);
-      pizza.favorites--;
+      food.favorites--;
       await this.userRepository.save(user);
-      await this.foodRepository.save(pizza);
+      await this.foodRepository.save(food);
     }
 
-    return pizza;
+    return food;
   }
 
   async updateRating(id: string, newRating: number) {

@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -39,6 +40,12 @@ export class FoodController {
     return this.foodService.findOne(id);
   }
 
+  @Delete(':id')
+  @Auth('admin')
+  delete(@Param('id') id: string) {
+    return this.foodService.delete(id);
+  }
+
   //Pizza
 
   @Get('pizzas/:id')
@@ -63,6 +70,24 @@ export class FoodController {
     return this.foodService.update(id, dto);
   }
 
+  @Post(':id/favorites')
+  @Auth()
+  async addPizzaToFavorites(
+    @User('id') userId: string,
+    @Param('id') id: string,
+  ) {
+    return await this.foodService.addToFavorites(id, userId);
+  }
+
+  @Delete(':id/favorites')
+  @Auth()
+  async deletePizzaFromFavorites(
+    @User('id') userId: string,
+    @Param('id') id: string,
+  ) {
+    return await this.foodService.removeFromFavorites(id, userId);
+  }
+
   //Drink
 
   @Get('drinks/:id')
@@ -85,29 +110,5 @@ export class FoodController {
   @Auth('admin')
   updateDrink(@Param('id') id: string, @Body() dto: CreateFoodDto) {
     return this.foodService.update(id, dto);
-  }
-
-  @Delete(':id')
-  @Auth('admin')
-  delete(@Param('id') id: string) {
-    return this.foodService.delete(id);
-  }
-
-  @Post(':id/favorites')
-  @Auth()
-  async addPizzaToFavorites(
-    @User('id') userId: string,
-    @Param('id') id: string,
-  ) {
-    return await this.foodService.addToFavorites(id, userId);
-  }
-
-  @Delete(':id/favorites')
-  @Auth()
-  async deletePizzaFromFavorites(
-    @User('id') userId: string,
-    @Param('id') id: string,
-  ) {
-    return await this.foodService.removeFromFavorites(id, userId);
   }
 }

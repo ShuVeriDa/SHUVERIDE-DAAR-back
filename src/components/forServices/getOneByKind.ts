@@ -1,12 +1,14 @@
 import { NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { FoodEntity } from '../../food/entity/food.entity';
 
 export const getOneByKind = async (
   id: string,
   foodName: string,
-  repos: any,
+  repos: Repository<FoodEntity>,
   kind?: 0 | 1,
 ) => {
-  const food = await repos.foodRepository.findOneBy({ id });
+  const food = await repos.findOneBy({ id });
 
   if (!food) throw new NotFoundException(`${foodName} not found`);
 
@@ -20,7 +22,7 @@ export const getOneByKind = async (
     if (!drink) throw new NotFoundException(`This food is not drink`);
   }
 
-  await repos.foodRepository
+  await repos
     .createQueryBuilder(foodName)
     .whereInIds(id)
     .update()
