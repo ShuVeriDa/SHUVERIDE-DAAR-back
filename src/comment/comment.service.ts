@@ -4,16 +4,20 @@ import { Repository } from 'typeorm';
 import { CommentEntity } from './entity/comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { validationUser } from '../components/forServices/validationUserForComments';
+import { getOneFood } from '../components/forServices/getOneFood';
+import { UserEntity } from '../user/entity/user.entity';
 
 @Injectable()
 export class CommentService {
   constructor(
     @InjectRepository(CommentEntity)
-    private repository: Repository<CommentEntity>,
+    private commentRepository: Repository<CommentEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   async findAll(foodId: number) {
-    const qb = this.repository.createQueryBuilder('c');
+    const qb = this.commentRepository.createQueryBuilder('c');
 
     if (foodId) {
       qb.where('c.foodId = :foodId', { foodId });
@@ -40,14 +44,15 @@ export class CommentService {
     // if (!comment) throw new NotFoundException('Comment not found');
     // return comment;
 
-    const qb = this.repository.createQueryBuilder('c');
+    const qb = this.commentRepository.createQueryBuilder('c');
 
     const arr = await qb
       .leftJoinAndSelect('c.food', 'food')
       .leftJoinAndSelect('c.user', 'user')
       .getMany();
 
-    const comment = arr.find((obj) => Number(obj.id) === Number(id));
+    const comment = arr.find((obj) => obj.id === id);
+    console.log(comment);
 
     if (!comment) {
       throw new NotFoundException('comment not found');
@@ -61,30 +66,71 @@ export class CommentService {
   }
 
   async create(dto: CreateCommentDto, userId: string) {
-    const comment = await this.repository.save({
+    const comment = await this.commentRepository.save({
       text: dto.text,
       food: { id: dto.foodId },
       user: { id: userId },
     });
 
-    return this.repository.findOneBy({ id: comment.id });
+    return this.commentRepository.findOneBy({ id: comment.id });
   }
 
   async update(id: string, userId: string, dto: CreateCommentDto) {
     await validationUser(id, userId, this);
 
-    await this.repository.update(id, {
+    await this.commentRepository.update(id, {
       text: dto.text,
       food: { id: dto.foodId },
       user: { id: userId },
     });
 
-    return this.repository.findOneBy({ id });
+    return this.commentRepository.findOneBy({ id });
   }
 
   async remove(id: string, userId: string) {
     await validationUser(id, userId, this);
 
-    return this.repository.delete(id);
+    return this.commentRepository.delete(id);
   }
+
+  // async addToFavorites(id: string, userId: string) {
+  //   const comment = await this.commentRepository.findOne({ where: { id: id } });
+  //
+  //   const user = await this.userRepository.findOne({
+  //     where: { id: userId },
+  //     relations: ['favorites'],
+  //   });
+  //
+  //   const isNotFavorites =
+  //     user.favorites.findIndex((obj) => obj.id === comment.id) === -1;
+  //
+  //   if (isNotFavorites) {
+  //     user.favorites.push(comment);
+  //     comment.favorites++;
+  //     await this.userRepository.save(user);
+  //     await this.commentRepository.save(comment);
+  //   }
+  //
+  //   return { comment: comment };
+  // }
+
+  // async removeFromFavorites(id: string, userId: string) {
+  //   const food = await getOneFood(id, 'foods', this);
+  //
+  //   const user = await this.userRepository.findOne({
+  //     where: { id: userId },
+  //     relations: ['favorites'],
+  //   });
+  //
+  //   const pizzaIndex = user.favorites.findIndex((obj) => obj.id === food.id);
+  //
+  //   if (pizzaIndex >= 0) {
+  //     user.favorites.splice(pizzaIndex, 1);
+  //     food.favorites--;
+  //     await this.userRepository.save(user);
+  //     await this.commentRepository.save(food);
+  //   }
+  //
+  //   return food;
+  // }
 }

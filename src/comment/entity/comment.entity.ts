@@ -22,6 +22,9 @@ export class CommentEntity {
   @Column()
   text: string;
 
+  @Column({ default: 0 })
+  favorites: number;
+
   @ManyToOne(() => UserEntity, {
     nullable: false,
   })
@@ -32,7 +35,7 @@ export class CommentEntity {
     nullable: false,
   })
   @JoinColumn({ name: 'foodId' })
-  food: PizzaEntity;
+  food: FoodEntity;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

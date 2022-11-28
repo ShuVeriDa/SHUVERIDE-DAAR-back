@@ -13,8 +13,9 @@ export class CreateFoodDto {
   @IsNumber()
   kind: number;
 
+  @IsOptional()
   @IsNumber()
-  category: number;
+  category?: number;
 
   @IsOptional()
   @IsNumber()

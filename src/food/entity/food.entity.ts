@@ -25,7 +25,7 @@ export class FoodEntity {
   @Column()
   kind: number;
 
-  @Column()
+  @Column({ default: 0 })
   category: number;
 
   @Column('int', { array: true, default: null })

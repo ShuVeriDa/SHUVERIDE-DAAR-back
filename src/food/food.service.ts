@@ -32,7 +32,7 @@ export class FoodService {
     const qb = this.foodRepository.createQueryBuilder('foods');
 
     qb.limit(dto.limit || 0);
-    qb.take(dto.take || 10);
+    qb.take(dto.take || 100);
 
     if (dto.title) {
       qb.andWhere('foods.title ILIKE :title');
@@ -72,9 +72,9 @@ export class FoodService {
       favorites: dto.favorites || 'DESC',
     });
 
-    const [items, total] = await qb.getManyAndCount();
+    const [foods, total] = await qb.getManyAndCount();
 
-    return { items, total };
+    return { foods, total };
   }
 
   async findOne(id: string) {

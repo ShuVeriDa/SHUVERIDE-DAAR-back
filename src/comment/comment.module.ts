@@ -7,13 +7,16 @@ import { PizzaModule } from '../pizza/pizza.module';
 import { DrinkModule } from '../drink/drink.module';
 import { PizzaService } from '../pizza/pizza.service';
 import { FoodModule } from '../food/food.module';
+import { UserEntity } from '../user/entity/user.entity';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CommentEntity]),
+    TypeOrmModule.forFeature([CommentEntity, UserEntity]),
     PizzaModule,
     DrinkModule,
     FoodModule,
+    UserModule,
   ],
   controllers: [CommentController],
   providers: [CommentService],

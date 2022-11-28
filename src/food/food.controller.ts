@@ -46,6 +46,21 @@ export class FoodController {
     return this.foodService.delete(id);
   }
 
+  @Post(':id/favorites')
+  @Auth()
+  async addToFavorites(@User('id') userId: string, @Param('id') id: string) {
+    return await this.foodService.addToFavorites(id, userId);
+  }
+
+  @Delete(':id/favorites')
+  @Auth()
+  async deleteFromFavorites(
+    @User('id') userId: string,
+    @Param('id') id: string,
+  ) {
+    return await this.foodService.removeFromFavorites(id, userId);
+  }
+
   //Pizza
 
   @Get('pizzas/:id')
@@ -68,24 +83,6 @@ export class FoodController {
   @Auth('admin')
   updatePizza(@Param('id') id: string, @Body() dto: CreateFoodDto) {
     return this.foodService.update(id, dto);
-  }
-
-  @Post(':id/favorites')
-  @Auth()
-  async addPizzaToFavorites(
-    @User('id') userId: string,
-    @Param('id') id: string,
-  ) {
-    return await this.foodService.addToFavorites(id, userId);
-  }
-
-  @Delete(':id/favorites')
-  @Auth()
-  async deletePizzaFromFavorites(
-    @User('id') userId: string,
-    @Param('id') id: string,
-  ) {
-    return await this.foodService.removeFromFavorites(id, userId);
   }
 
   //Drink

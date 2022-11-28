@@ -38,7 +38,7 @@ export class CommentController {
   }
 
   @Put(':id')
-  @UseGuards()
+  @UseGuards(JwtAuthGuard)
   @Auth()
   update(
     @Param('id') id: string,
@@ -54,4 +54,19 @@ export class CommentController {
   remove(@Param('id') id: string, @User('id') userId: string) {
     return this.commentService.remove(id, userId);
   }
+
+  // @Post(':id/favorites')
+  // @Auth()
+  // async addToFavorites(@User('id') userId: string, @Param('id') id: string) {
+  //   return await this.commentService.addToFavorites(id, userId);
+  // }
+
+  // @Delete(':id/favorites')
+  // @Auth()
+  // async deleteFromFavorites(
+  //   @User('id') userId: string,
+  //   @Param('id') id: string,
+  // ) {
+  //   return await this.commentService.removeFromFavorites(id, userId);
+  // }
 }
