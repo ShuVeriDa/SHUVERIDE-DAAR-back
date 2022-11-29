@@ -30,6 +30,11 @@ export class CommentController {
     return this.commentService.findOne(id);
   }
 
+  @Get('food/:id')
+  findByFoodId(@Param('id') foodId: string) {
+    return this.commentService.findByFoodId(foodId);
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard)
   @Auth()

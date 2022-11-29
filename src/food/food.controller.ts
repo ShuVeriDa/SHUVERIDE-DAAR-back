@@ -35,7 +35,6 @@ export class FoodController {
   }
 
   @Get(':id')
-  @Auth('admin')
   findOne(@Param('id') id: string) {
     return this.foodService.findOne(id);
   }

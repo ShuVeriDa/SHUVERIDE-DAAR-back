@@ -65,6 +65,28 @@ export class CommentService {
     };
   }
 
+  async findByFoodId(foodId: string) {
+    const qb = this.commentRepository.createQueryBuilder('c');
+
+    const arr = await qb
+      .leftJoinAndSelect('c.food', 'food')
+      .leftJoinAndSelect('c.user', 'user')
+      .getMany();
+
+    const foods = arr.map((obj) => {
+      const foods = obj.food.id === foodId;
+      if (foods) {
+        delete obj.user.password;
+        return {
+          ...obj,
+          food: { id: obj.food.id, title: obj.food.title },
+        };
+      }
+    });
+
+    return foods;
+  }
+
   async create(dto: CreateCommentDto, userId: string) {
     const comment = await this.commentRepository.save({
       text: dto.text,
