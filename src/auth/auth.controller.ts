@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   HttpCode,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -9,6 +11,7 @@ import {
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
+import { Auth } from './decorators/auth.decorator';
 
 @Controller('auth')
 export class AuthController {

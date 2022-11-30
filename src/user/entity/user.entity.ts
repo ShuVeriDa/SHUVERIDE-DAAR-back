@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { CommentEntity } from '../../comment/entity/comment.entity';
 import { FoodEntity } from '../../food/entity/food.entity';
+import { IsOptional } from 'class-validator';
 
 @Entity('user')
 export class UserEntity {
@@ -45,6 +46,9 @@ export class UserEntity {
 
   @Column({ default: false })
   isAdmin?: boolean;
+
+  @Column()
+  avatar?: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

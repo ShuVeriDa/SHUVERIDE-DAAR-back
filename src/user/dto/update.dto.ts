@@ -6,15 +6,17 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class AuthDto {
+export class UpdateUserDto {
   @IsEmail()
-  email: string;
+  @IsOptional()
+  email?: string;
 
   @MinLength(6, {
     message: 'Password cannot be less than 6 characters',
   })
   @IsString()
-  password: string;
+  @IsOptional()
+  password?: string;
 
   @IsOptional()
   @IsString()

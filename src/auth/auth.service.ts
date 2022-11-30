@@ -52,6 +52,7 @@ export class AuthService {
       email: dto.email,
       password: await hash(dto.password, salt),
       isAdmin: dto.isAdmin,
+      avatar: dto.avatar,
     });
 
     const tokens = await this.issueTokenPair(String(user.id));
