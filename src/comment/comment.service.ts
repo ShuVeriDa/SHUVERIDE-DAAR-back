@@ -111,7 +111,7 @@ export class CommentService {
   async remove(id: string, userId: string) {
     await validationUser(id, userId, this);
 
-    return this.commentRepository.delete(id);
+    return await this.commentRepository.delete(id);
   }
 
   // async addToFavorites(id: string, userId: string) {
