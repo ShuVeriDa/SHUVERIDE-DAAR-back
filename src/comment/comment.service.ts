@@ -73,16 +73,15 @@ export class CommentService {
       .leftJoinAndSelect('c.user', 'user')
       .getMany();
 
-    const foods = arr.map((obj) => {
-      const foods = obj.food.id === foodId;
-      if (foods) {
+    const foods = arr
+      .filter((obj) => obj.food.id === foodId)
+      .map((obj) => {
         delete obj.user.password;
         return {
           ...obj,
           food: { id: obj.food.id, title: obj.food.title },
         };
-      }
-    });
+      });
 
     return foods;
   }
@@ -94,7 +93,7 @@ export class CommentService {
       user: { id: userId },
     });
 
-    return this.commentRepository.findOneBy({ id: comment.id });
+    return this.findOne(comment.id);
   }
 
   async update(id: string, userId: string, dto: CreateCommentDto) {
@@ -106,7 +105,7 @@ export class CommentService {
       user: { id: userId },
     });
 
-    return this.commentRepository.findOneBy({ id });
+    return this.findOne(id);
   }
 
   async remove(id: string, userId: string) {

@@ -104,6 +104,7 @@ export class AuthService {
       email: user.email,
       isAdmin: user.isAdmin,
       nickName: user.nickName,
+      avatar: user.avatar,
     };
   }
 }
